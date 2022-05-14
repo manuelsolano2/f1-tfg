@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -29,6 +29,8 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 import USERLIST from '../_mock/user';
 
 // ----------------------------------------------------------------------
+
+
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
@@ -71,6 +73,9 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
+
+
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -132,6 +137,22 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  const [table, setTable] = useState(null);
+
+  useEffect(()=>{
+    fetch('http://ergast.com/api/f1/current/last/results.json', {
+      method: 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+          setTable(data.MRData.RaceTable.Races[0]);
+          console.log('HOLA')
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+  }, []);
+
   return (
     <Page title="User">
       <Container>
@@ -143,6 +164,11 @@ export default function User() {
             New User
           </Button>
         </Stack>
+        {table && table.Results.map((rowss) => {
+          return (<span>{rowss.Driver.code}</span>)
+        })};
+
+
 
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
@@ -160,7 +186,8 @@ export default function User() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+
+                  {table && filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, name, role, status, company, avatarUrl, isVerified } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
