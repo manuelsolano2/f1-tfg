@@ -27,10 +27,9 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
+import users from '../_mock/users';
 
 // ----------------------------------------------------------------------
-
-
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
@@ -38,6 +37,17 @@ const TABLE_HEAD = [
   { id: 'role', label: 'Role', alignRight: false },
   { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: '' },
+];
+const DRIVER_HEAD = [
+  { id: 'givenName', label: 'givenName', alignRight: false },
+  { id: 'familyName', label: 'familyName', alignRight: false },
+  { id: 'code', label: 'Code', alignRight: false },
+  { id: 'nationality', label: 'Nationality', alignRight: false },
+  { id: 'team', label: 'Team', alignRight: false },
+  { id: 'birth', label: 'Birth', alignRight: false },
+  { id: 'number', label: 'Number', alignRight: false },
+  { id: 'url', label: 'URL', alignRight: false },
   { id: '' },
 ];
 
@@ -96,7 +106,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = table.map((n) => n.Driver.diverId);
       setSelected(newSelecteds);
       return;
     }
@@ -145,8 +155,7 @@ export default function User() {
     })
         .then(response => response.json())
         .then(data => {
-          setTable(data.MRData.RaceTable.Races[0]);
-          console.log('HOLA')
+          setTable(data.MRData.RaceTable.Races[0].Results);
         })
         .catch((err) => {
           console.log(err)
@@ -158,13 +167,13 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            User {table && table.length}
           </Typography>
           <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
             New User
           </Button>
         </Stack>
-        {table && table.Results.map((rowss) => {
+        {table && table.map((rowss) => {
           return (<span>{rowss.Driver.code}</span>)
         })};
 
@@ -256,6 +265,98 @@ export default function User() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
+        <div style={{height: '100px'}}/>
+        <Card>
+          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              <Table>
+                <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={DRIVER_HEAD}
+                    rowCount={table && table.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                />
+                <TableBody>
+
+                  {table && table.map((row, index) => {
+                    const {code, dateOfBirth, driverId, familyName, givenName, nationality, permanentNumber, url} = row.Driver
+                    const teamName = row.Constructor.name
+                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                    const isItemSelected = selected.indexOf(name) !== -1;
+
+
+                    return (
+                        <TableRow
+                            hover
+                            key={index}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          </TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                              <Avatar alt={givenName} src={avatarUrl} />
+                              <Typography variant="subtitle2" noWrap>
+                                {givenName}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
+                          <TableCell align="left">{familyName}</TableCell>
+                          <TableCell align="left">{code}</TableCell>
+                          <TableCell align="left">{nationality}</TableCell>
+                          <TableCell align="left">{teamName}</TableCell>
+                          <TableCell align="left">{dateOfBirth}</TableCell>
+                          <TableCell align="left">{permanentNumber}</TableCell>
+                          <TableCell align="left">
+                            <a href={url} target="_blank" rel="noopener noreferrer">Url</a>
+                          </TableCell>
+                          <TableCell align="right">
+                            <UserMoreMenu />
+                          </TableCell>
+                        </TableRow>
+                    );
+                  })}
+                  {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                  )}
+                </TableBody>
+
+                {isUserNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <SearchNotFound searchQuery={filterName} />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                )}
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+
+          <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={table && table.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Card>
+
+
       </Container>
     </Page>
   );
