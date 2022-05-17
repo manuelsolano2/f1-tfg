@@ -40,8 +40,8 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
     <RootStyle
       sx={{
         ...(numSelected > 0 && {
-          color: 'primary.main',
-          bgcolor: 'primary.lighter',
+          color: 'error.main',
+          bgcolor: 'error.lighter',
         }),
       }}
     >

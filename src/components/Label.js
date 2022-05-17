@@ -51,7 +51,7 @@ const RootStyle = styled('span')(({ theme, ownerState }) => {
       : {
           ...(variant === 'outlined' && {
             backgroundColor: 'transparent',
-            color: theme.palette.text.primary,
+            color: theme.palette.text.error,
             border: `1px solid ${theme.palette.grey[500_32]}`,
           }),
           ...(variant === 'ghost' && {

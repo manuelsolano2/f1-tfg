@@ -1,22 +1,37 @@
-import PropTypes from 'prop-types';
 // material
 import { Grid } from '@mui/material';
+import {useEffect, useState} from "react";
 import ShopProductCard from './ProductCard';
 
 // ----------------------------------------------------------------------
 
-ProductList.propTypes = {
-  products: PropTypes.array.isRequired
-};
+export default function ProductList() {
+  const [data1, setData] = useState(null);
 
-export default function ProductList({ products, ...other }) {
+  useEffect(()=>{
+    fetch('http://ergast.com/api/f1/current/driverStandings.json', {
+      method: 'GET',
+    })
+        .then(response => response.json())
+        .then(data1 => {
+            console.log(data1)
+            setData(data1.MRData.StandingsTable.StandingsLists[0].DriverStandings);
+
+
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+  }, []);
+
+
   return (
-    <Grid container spacing={3} {...other}>
-      {products.map((product) => (
-        <Grid key={product.id} item xs={12} sm={6} md={3}>
-          <ShopProductCard product={product} />
-        </Grid>
-      ))}
+    <Grid container spacing={3}>
+        {data1 && data1.map(row =>
+            <Grid key={row} item xs={12} sm={6} md={3}>
+                <ShopProductCard row={row} />
+            </Grid>
+        )};
     </Grid>
   );
-}
+};

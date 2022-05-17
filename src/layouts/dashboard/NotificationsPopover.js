@@ -17,7 +17,7 @@ import {
   ListItemText,
   ListSubheader,
   ListItemAvatar,
-  ListItemButton,
+  ListItemButton, Link,
 } from '@mui/material';
 // utils
 import { fToNow } from '../../utils/formatTime';
@@ -31,21 +31,19 @@ import MenuPopover from '../../components/MenuPopover';
 const NOTIFICATIONS = [
   {
     id: faker.datatype.uuid(),
-    title: 'Your order is placed',
-    description: 'waiting for shipping',
+    title: 'Check API',
+    description: 'Check the API documentation website',
     avatar: null,
-    type: 'order_placed',
-    createdAt: set(new Date(), { hours: 10, minutes: 30 }),
-    isUnRead: true,
+    type: 'api',
+    link: 'http://ergast.com/mrd/'
   },
   {
     id: faker.datatype.uuid(),
-    title: faker.name.findName(),
-    description: 'answered to your comment on the Minimal',
-    avatar: '/static/mock-images/avatars/avatar_2.jpg',
-    type: 'friend_interactive',
-    createdAt: sub(new Date(), { hours: 3, minutes: 30 }),
-    isUnRead: true,
+    title: 'F1 Website',
+    description: 'Visit the F1 website to check the news',
+    avatar: null,
+    type: 'f1',
+    link: 'https://www.formula1.com/en.html'
   },
   {
     id: faker.datatype.uuid(),
@@ -53,8 +51,6 @@ const NOTIFICATIONS = [
     description: '5 unread messages',
     avatar: null,
     type: 'chat_message',
-    createdAt: sub(new Date(), { days: 1, hours: 3, minutes: 30 }),
-    isUnRead: false,
   },
   {
     id: faker.datatype.uuid(),
@@ -62,8 +58,6 @@ const NOTIFICATIONS = [
     description: 'sent from Guido Padberg',
     avatar: null,
     type: 'mail',
-    createdAt: sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
-    isUnRead: false,
   },
   {
     id: faker.datatype.uuid(),
@@ -71,8 +65,6 @@ const NOTIFICATIONS = [
     description: 'Your order is being shipped',
     avatar: null,
     type: 'order_shipped',
-    createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
-    isUnRead: false,
   },
 ];
 
@@ -80,8 +72,6 @@ export default function NotificationsPopover() {
   const anchorRef = useRef(null);
 
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
-
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
 
   const [open, setOpen] = useState(null);
 
@@ -93,26 +83,16 @@ export default function NotificationsPopover() {
     setOpen(null);
   };
 
-  const handleMarkAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        isUnRead: false,
-      }))
-    );
-  };
 
   return (
     <>
       <IconButton
         ref={anchorRef}
-        color={open ? 'primary' : 'default'}
+        color={open ? 'error' : 'default'}
         onClick={handleOpen}
         sx={{ width: 40, height: 40 }}
       >
-        <Badge badgeContent={totalUnRead} color="error">
-          <Iconify icon="eva:bell-fill" width={20} height={20} />
-        </Badge>
+          <Iconify icon="akar-icons:info-fill" width={40} height={40} />
       </IconButton>
 
       <MenuPopover
@@ -124,18 +104,7 @@ export default function NotificationsPopover() {
         <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="subtitle1">Notifications</Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              You have {totalUnRead} unread messages
-            </Typography>
           </Box>
-
-          {totalUnRead > 0 && (
-            <Tooltip title=" Mark all as read">
-              <IconButton color="primary" onClick={handleMarkAllAsRead}>
-                <Iconify icon="eva:done-all-fill" width={20} height={20} />
-              </IconButton>
-            </Tooltip>
-          )}
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
@@ -167,14 +136,6 @@ export default function NotificationsPopover() {
             ))}
           </List>
         </Scrollbar>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple>
-            View All
-          </Button>
-        </Box>
       </MenuPopover>
     </>
   );
@@ -184,13 +145,12 @@ export default function NotificationsPopover() {
 
 NotificationItem.propTypes = {
   notification: PropTypes.shape({
-    createdAt: PropTypes.instanceOf(Date),
     id: PropTypes.string,
-    isUnRead: PropTypes.bool,
     title: PropTypes.string,
     description: PropTypes.string,
     type: PropTypes.string,
     avatar: PropTypes.any,
+    link: PropTypes.string,
   }),
 };
 
@@ -198,14 +158,13 @@ function NotificationItem({ notification }) {
   const { avatar, title } = renderContent(notification);
 
   return (
+      <Link href={notification.link} underline='none' target="_blank" rel="noopener" color='inherit'>
     <ListItemButton
+
       sx={{
         py: 1.5,
         px: 2.5,
         mt: '1px',
-        ...(notification.isUnRead && {
-          bgcolor: 'action.selected',
-        }),
       }}
     >
       <ListItemAvatar>
@@ -222,13 +181,11 @@ function NotificationItem({ notification }) {
               alignItems: 'center',
               color: 'text.disabled',
             }}
-          >
-            <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
-            {fToNow(notification.createdAt)}
-          </Typography>
+          />
         }
       />
     </ListItemButton>
+      </Link>
   );
 }
 
@@ -239,7 +196,8 @@ function renderContent(notification) {
     <Typography variant="subtitle2">
       {notification.title}
       <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        &nbsp; {noCase(notification.description)}
+        <br/>
+          {notification.description}
       </Typography>
     </Typography>
   );
@@ -247,6 +205,18 @@ function renderContent(notification) {
   if (notification.type === 'order_placed') {
     return {
       avatar: <img alt={notification.title} src="/static/icons/ic_notification_package.svg" />,
+      title,
+    };
+  }
+  if (notification.type === 'api') {
+    return {
+      avatar: <img alt={notification.title} src="/static/icons/api.png" />,
+      title,
+    };
+  }
+  if (notification.type === 'f1') {
+    return {
+      avatar: <img alt={notification.title} src="/static/icons/f1-logo.png" />,
       title,
     };
   }

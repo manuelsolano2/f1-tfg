@@ -20,7 +20,7 @@ export default function Button(theme) {
           }
         },
         containedPrimary: {
-          boxShadow: theme.customShadows.primary
+          boxShadow: theme.customShadows.error
         },
         containedSecondary: {
           boxShadow: theme.customShadows.secondary

@@ -21,10 +21,10 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Page404() {
   return (
-    <Page title="404 Page Not Found">
+    <Page title="404">
       <Container>
         <ContentStyle sx={{ textAlign: 'center', alignItems: 'center' }}>
-          <Typography variant="h3" paragraph>
+          <Typography variant="h3" paragraph color='error'>
             Sorry, page not found!
           </Typography>
 
@@ -39,7 +39,7 @@ export default function Page404() {
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
 
-          <Button to="/" size="large" variant="contained" component={RouterLink}>
+          <Button to="/" size="large" variant="contained" component={RouterLink} color='error'>
             Go to Home
           </Button>
         </ContentStyle>

@@ -13,18 +13,18 @@ const navConfig = [
   },
   {
     title: 'Drivers',
-    path: '/dashboard/user',
-    icon: getIcon('eva:people-fill'),
-  },
-  {
-    title: 'Circuits',
-    path: '/dashboard/products',
-    icon: getIcon('eva:globe-fill'),
+    path: '/dashboard/driver',
+    icon: getIcon('mdi:racing-helmet'),
   },
   {
     title: 'Standings',
+    path: '/dashboard/standings',
+    icon: getIcon('bxs:medal'),
+  },
+  {
+    title: 'Circuits',
     path: '/dashboard/blog',
-    icon: getIcon('eva:shield-fill'),
+    icon: getIcon('maki:racetrack'),
   },
   {
     title: 'Not found',

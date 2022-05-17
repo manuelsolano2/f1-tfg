@@ -80,7 +80,7 @@ export default function BaseOptionChart() {
   return {
     // Colors
     colors: [
-      theme.palette.primary.main,
+      theme.palette.error.main,
       theme.palette.chart.yellow[0],
       theme.palette.chart.blue[0],
       theme.palette.chart.violet[0],
