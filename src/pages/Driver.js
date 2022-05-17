@@ -1,28 +1,23 @@
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
+import {filter} from 'lodash';
 import {useEffect, useState} from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
-  Table,
+  Container,
   Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
+  Table,
   TableBody,
   TableCell,
-  Container,
-  Typography,
   TableContainer,
   TablePagination,
+  TableRow,
+  Typography,
 } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import {UserListHead, UserListToolbar, UserMoreMenu} from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
 
@@ -36,8 +31,7 @@ const DRIVER_HEAD = [
   { id: 'team', label: 'Team', alignRight: false },
   { id: 'birth', label: 'Birth', alignRight: false },
   { id: 'number', label: 'Number', alignRight: false },
-  { id: 'url', label: 'URL', alignRight: false },
-  { id: '' },
+  { id: 'url', label: 'URL', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -66,7 +60,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.Driver.givenName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -74,16 +68,12 @@ function applySortFilter(array, comparator, query) {
 export default function Driver() {
 
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('name');
-
   const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [table, setTable] = useState([]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -128,21 +118,18 @@ export default function Driver() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - table.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(table, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
-
-  const [table, setTable] = useState(null);
 
   useEffect(()=>{
     fetch('http://ergast.com/api/f1/current/last/results.json', {
       method: 'GET',
-    })
-        .then(response => response.json())
+    }).then(response => response.json())
         .then(data => {
-          setTable(data.MRData.RaceTable.Races[0].Results);
+          setTable(data.MRData.RaceTable.Races[0].Results || []);
         })
         .catch((err) => {
           console.log(err)
@@ -155,10 +142,10 @@ export default function Driver() {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Drivers  {table && table.length}
+            Drivers  {table.length}
           </Typography>
         </Stack>
-
+z
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 
@@ -169,40 +156,27 @@ export default function Driver() {
                     order={order}
                     orderBy={orderBy}
                     headLabel={DRIVER_HEAD}
-                    rowCount={table && table.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
+                    rowCount={table.length}
                 />
                 <TableBody>
 
-                  {table && table.map((row, index) => {
+                  {table.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                     const {code, dateOfBirth, driverId, familyName, givenName, nationality, permanentNumber, url} = row.Driver
                     const teamName = row.Constructor.name
                     const { id, name, role, status, company, avatarUrl, isVerified } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
+                    if ((filterName || '').length && givenName.toLowerCase().indexOf(filterName.toLowerCase()) === -1) return <></>
 
                     return (
                         <TableRow
                             hover
                             key={driverId}
                             tabIndex={-1}
-                            role="checkbox"
                             selected={isItemSelected}
                             aria-checked={isItemSelected}
                         >
-                          <TableCell padding="checkbox">
-                            <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
-                          </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={givenName} src={avatarUrl} />
-                              <Typography variant="subtitle2" noWrap>
-                                {givenName}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
+                          <TableCell align="left">{givenName}</TableCell>
                           <TableCell align="left">{familyName}</TableCell>
                           <TableCell align="left">{code}</TableCell>
                           <TableCell align="left">{nationality}</TableCell>
@@ -212,9 +186,7 @@ export default function Driver() {
                           <TableCell align="left">
                             <a href={url} target="_blank" rel="noopener noreferrer">Url</a>
                           </TableCell>
-                          <TableCell align="right">
-                            <UserMoreMenu />
-                          </TableCell>
+
                         </TableRow>
                     );
                   })}
@@ -241,7 +213,7 @@ export default function Driver() {
           <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={table && table.length}
+              count={table.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

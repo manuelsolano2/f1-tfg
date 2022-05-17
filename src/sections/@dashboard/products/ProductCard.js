@@ -31,10 +31,15 @@ export default function ShopProductCard({ row }) {
 
     const {code, dateOfBirth, driverId, familyName, givenName, nationality, permanentNumber, url} = row.Driver
 
+    const handleError = i => {
+        i.target.src = "/static/Drivers/Default.jpeg";
+        return null;
+    };
+
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        <ProductImgStyle alt={code} src={`/static/Drivers/${familyName}.jpeg`} />
+        <ProductImgStyle alt={code} src={`/static/Drivers/${familyName}.jpeg`} onError={handleError} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>

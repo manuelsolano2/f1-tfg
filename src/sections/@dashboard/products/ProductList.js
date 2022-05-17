@@ -5,11 +5,11 @@ import ShopProductCard from './ProductCard';
 
 // ----------------------------------------------------------------------
 
-export default function ProductList() {
+export default function ProductList({ year }) {
   const [data1, setData] = useState(null);
 
   useEffect(()=>{
-    fetch('http://ergast.com/api/f1/current/driverStandings.json', {
+    fetch(`http://ergast.com/api/f1/${year}/driverStandings.json`, {
       method: 'GET',
     })
         .then(response => response.json())
@@ -22,11 +22,12 @@ export default function ProductList() {
         .catch((err) => {
           console.log(err)
         });
-  }, []);
+  }, [year]);
 
 
   return (
-    <Grid container spacing={3}>
+
+      <Grid container spacing={3}>
         {data1 && data1.map(row =>
             <Grid key={row} item xs={12} sm={6} md={3}>
                 <ShopProductCard row={row} />
