@@ -17,14 +17,14 @@ const navConfig = [
     icon: getIcon('mdi:racing-helmet'),
   },
   {
+    title: 'Circuits',
+    path: '/dashboard/circuits',
+    icon: getIcon('maki:racetrack'),
+  },
+  {
     title: 'Standings',
     path: '/dashboard/standings',
     icon: getIcon('bxs:medal'),
-  },
-  {
-    title: 'Circuits',
-    path: '/dashboard/blog',
-    icon: getIcon('maki:racetrack'),
   },
   {
     title: 'Not found',

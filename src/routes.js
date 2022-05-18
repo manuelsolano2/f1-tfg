@@ -8,6 +8,7 @@ import Driver from './pages/Driver';
 import NotFound from './pages/Page404';
 import Standings from './pages/Standings';
 import DashboardApp from './pages/DashboardApp';
+import Circuits from "./pages/Circuits";
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +21,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'driver', element: <Driver /> },
         { path: 'standings', element: <Standings /> },
+        { path: 'circuits', element: <Circuits /> },
         { path: 'blog', element: <Blog /> },
       ],
     },

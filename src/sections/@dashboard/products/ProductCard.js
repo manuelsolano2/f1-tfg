@@ -27,7 +27,7 @@ ShopProductCard.propTypes = {
 
 
 
-export default function ShopProductCard({ row }) {
+export default function ShopProductCard({ row , index}) {
 
     const {code, dateOfBirth, driverId, familyName, givenName, nationality, permanentNumber, url} = row.Driver
 
@@ -44,7 +44,7 @@ export default function ShopProductCard({ row }) {
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Typography variant="subtitle2" noWrap>
-          {familyName}
+            {index+1}º&nbsp;{familyName}
         </Typography>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -52,7 +52,7 @@ export default function ShopProductCard({ row }) {
             {code}
           </Typography>
             <Typography variant="subtitle1">
-            {row.points} pts
+            {row.points}
           </Typography>
         </Stack>
       </Stack>

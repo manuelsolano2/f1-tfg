@@ -24,9 +24,9 @@ export default function ProductList({ year }) {
   return (
 
       <Grid container spacing={3}>
-        {data1 && data1.map(row =>
+        {data1 && data1.map((row, index) =>
             <Grid key={row} item xs={12} sm={6} md={3}>
-                <ShopProductCard row={row} />
+                <ShopProductCard row={row} index={index}/>
             </Grid>
         )};
     </Grid>
