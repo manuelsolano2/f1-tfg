@@ -14,16 +14,12 @@ export default function ProductList({ year }) {
     })
         .then(response => response.json())
         .then(data1 => {
-            console.log(data1)
             setData(data1.MRData.StandingsTable.StandingsLists[0].DriverStandings);
-
-
         })
         .catch((err) => {
           console.log(err)
         });
   }, [year]);
-
 
   return (
 

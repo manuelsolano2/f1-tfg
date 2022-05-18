@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 // material
 import {
   Card,
-  Container,
+  Container, FormControl, MenuItem, Select,
   Stack,
   Table,
   TableBody,
@@ -17,9 +17,7 @@ import {
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-import {UserListHead, UserListToolbar, UserMoreMenu} from '../sections/@dashboard/user';
-// mock
-import USERLIST from '../_mock/user';
+import {UserListHead, UserListToolbar} from '../sections/@dashboard/user';
 
 // ----------------------------------------------------------------------
 
@@ -74,36 +72,8 @@ export default function Driver() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [table, setTable] = useState([]);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = table.map((n) => n.Driver.diverId);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
-  };
+  const [year, setYear] = useState(2022)
+  const [selector, setSelector] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -125,7 +95,22 @@ export default function Driver() {
   const isUserNotFound = filteredUsers.length === 0;
 
   useEffect(()=>{
-    fetch('http://ergast.com/api/f1/current/last/results.json', {
+    fetch(`http://ergast.com/api/f1/seasons.json?limit=100`, {
+      method: 'GET',
+    })
+        .then(response => response.json())
+        .then(selector => {
+          setSelector(selector.MRData.SeasonTable.Seasons);
+
+
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+  }, []);
+
+  useEffect(()=>{
+    fetch(`http://ergast.com/api/f1/${year}/last/results.json`, {
       method: 'GET',
     }).then(response => response.json())
         .then(data => {
@@ -134,18 +119,36 @@ export default function Driver() {
         .catch((err) => {
           console.log(err)
         });
-  }, []);
+  }, [year]);
 
   return (
     <Page title="Drivers">
       <Container>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Drivers  {table.length}
+            Drivers
           </Typography>
-        </Stack>
-z
+
+        <FormControl sx={{ m: 2, width: 300 }} >
+          <Select
+              MenuProps={{
+                PaperProps: { sx: { maxHeight: 200 }}
+              }}
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              color='error'
+              bgcolor='error'
+              value={year}
+              onChange={e => setYear(e.target.value)}
+          >
+            {selector.map((row, index) => {
+              return (
+                  <MenuItem key={index} value={row.season}>{row.season}</MenuItem>
+              )
+            })}
+
+          </Select>
+        </FormControl>
+
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
 

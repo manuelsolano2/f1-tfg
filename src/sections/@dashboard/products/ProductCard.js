@@ -39,7 +39,7 @@ export default function ShopProductCard({ row }) {
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        <ProductImgStyle alt={code} src={`/static/Drivers/${familyName}.jpeg`} onError={handleError} />
+        <ProductImgStyle alt={code} src={`/static/Drivers/${driverId}.jpeg`} onError={handleError} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
