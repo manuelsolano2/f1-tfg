@@ -1,11 +1,9 @@
 import {useEffect, useState} from "react";
 // material
-import {Container, FormControl, Grid, MenuItem, Select, Stack, Typography} from '@mui/material';
-import TextField from "@material-ui/core/TextField";
+import {Container, FormControl, MenuItem, Select, Stack, Typography} from '@mui/material';
 // components
 import Page from '../components/Page';
 import {ProductList} from '../sections/@dashboard/products/index';
-import ShopProductCard from "../sections/@dashboard/products/ProductCard";
 
 // mock
 

@@ -29,7 +29,7 @@ const navConfig = [
   {
     title: 'Constructors',
     path: '/dashboard/constructors',
-    icon: getIcon('bxs:medal'),
+    icon: getIcon('clarity:shield-solid'),
   },
   {
     title: 'Not found',

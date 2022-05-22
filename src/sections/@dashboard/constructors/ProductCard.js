@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Box, Card, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
-import {useEffect, useState} from "react";
-import { fCurrency } from '../../../utils/formatNumber';
 // components
 
 
@@ -29,18 +26,18 @@ ProductConstructorCard.propTypes = {
 
 export default function ProductConstructorCard({ row , index}) {
 
-    const {constructorId, name, nationality, url} = row.Constructor
+    const {constructorId, name} = row.Constructor
     const {points, wins, position} = row
 
     const handleError = i => {
         i.target.src = "/static/Drivers/Default.jpeg";
-        return null;
-    };
+        return null
+    }
 
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        <ProductImgStyle alt={constructorId} src={`/static/Drivers/${constructorId}.jpeg`} onError={handleError} />
+        <ProductImgStyle alt={constructorId} src={`/static/Constructors/${constructorId}.png`} onError={handleError} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>

@@ -15,7 +15,7 @@ export default function ProductConstructorList({ year }) {
         .then(response => response.json())
         .then(data1 => {
             console.log(data1.MRData.StandingsTable.StandingsLists[0].ConstructorStandings)
-            setData(data1.MRData.StandingsTable.StandingsLists[0].ConstructorStandings);
+            setData(data1.MRData.StandingsTable.StandingsLists[0].ConstructorStandings)
         })
         .catch((err) => {
           console.log(err)
@@ -24,7 +24,7 @@ export default function ProductConstructorList({ year }) {
 
   return (
 
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         {data1 && data1.map((row, index) =>
             <Grid key={row} item xs={12} sm={6} md={3}>
                 <ProductConstructorCard row={row} index={index}/>

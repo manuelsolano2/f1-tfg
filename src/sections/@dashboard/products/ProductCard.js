@@ -1,11 +1,8 @@
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Box, Card, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
-import {useEffect, useState} from "react";
-import { fCurrency } from '../../../utils/formatNumber';
 // components
 
 
@@ -29,7 +26,7 @@ ShopProductCard.propTypes = {
 
 export default function ShopProductCard({ row , index}) {
 
-    const {code, dateOfBirth, driverId, familyName, givenName, nationality, permanentNumber, url} = row.Driver
+    const {code, driverId, familyName} = row.Driver
 
     const handleError = i => {
         i.target.src = "/static/Drivers/Default.jpeg";
