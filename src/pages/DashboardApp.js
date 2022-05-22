@@ -1,15 +1,10 @@
-import { faker } from '@faker-js/faker';
+import {useEffect, useState} from "react";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import {Grid, Container, Typography, Card, Stack, CardHeader, Box} from '@mui/material';
 // components
 import Page from '../components/Page';
-import Iconify from '../components/Iconify';
 // sections
 import {
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
   AppWidgetSummary,
   AppConversionRates,
 } from '../sections/@dashboard/app';
@@ -17,128 +12,149 @@ import {
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
-  const theme = useTheme();
+    const [driver, setDriver] = useState(0);
+    const [circuit, setCircuit] = useState(0);
+    const [constructor, setConstructor] = useState(0);
+    const [season, setSeason] = useState(0);
+    const [lastRace, setLastRace] = useState('undefined');
+    const [lastQualy, setLastQualy] = useState('undefined');
 
-  return (
-    <Page title="Dashboard">
-      <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
-        </Typography>
+    useEffect(()=>{
+        fetch(`http://ergast.com/api/f1/drivers.json`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(driver => {
+                setDriver(driver.MRData.total);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }, []);
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Number of Drivers" total={20} icon={'ant-design:android-filled'} />
-          </Grid>
+    useEffect(()=>{
+        fetch(`http://ergast.com/api/f1/constructors.json`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(constructor => {
+                setConstructor(constructor.MRData.total);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }, []);
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Circuits" total={22} color="info" icon={'ant-design:apple-filled'} />
-          </Grid>
+    useEffect(()=>{
+        fetch(`http://ergast.com/api/f1/circuits.json`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(circuit => {
+                setCircuit(circuit.MRData.total);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }, []);
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
+    useEffect(()=>{
+        fetch(`http://ergast.com/api/f1/seasons.json`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(season => {
+                setSeason(season.MRData.total);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }, []);
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
-          </Grid>
+    useEffect(()=>{
+        fetch(`http://ergast.com/api/f1/current/last/results.json`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(lastRace => {
+                console.log(lastRace.MRData.RaceTable.Races[0].Circuit.Location.locality);
+                console.log(lastRace.MRData.RaceTable.Races[0].Circuit.Location.country);
+                console.log(lastRace.MRData.RaceTable.Races[0].raceName);
+                console.log(lastRace.MRData.RaceTable.Races[0].Results[0].Driver.familyName);
+                console.log(lastRace.MRData.RaceTable.Races[0].Results[0].Time.time);
+                console.log(lastRace.MRData.RaceTable.Races[0].Results[0].points);
+                setLastRace(lastRace.MRData.RaceTable.Races[0]);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }, []);
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits
-              title="Website Visits"
-              subheader="(+43%) than last year"
-              chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ]}
-              chartData={[
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ]}
-            />
-          </Grid>
+    useEffect(()=>{
+        fetch(`http://ergast.com/api/f1/current/last/qualifying.json`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(lastQualy => {
+                console.log(lastQualy.MRData.RaceTable.Races[0].QualifyingResults[0].Q3);
+                console.log(lastQualy.MRData.RaceTable.Races[0].QualifyingResults[0].Driver.familyName);
+                setLastQualy(lastQualy.MRData.RaceTable.Races[0].QualifyingResults[0]);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }, []);
+    // aqui es donde estoy teniendo el problema al final santi, con la llamada de locality y de country en el ultimo typography
+    // he intentado lo del doble ampersand abajo del return con el Page pero que va, sino lo miramos esta tarde
+    // he dejado en el console log las llamadas como son, aunque abajo están todas de todas formas
+    return (
+        <Page title="Dashboard">
+          <Container maxWidth="xl">
+            <Typography variant="h4" sx={{ mb: 5 }}>
+              Hi, Welcome back
+            </Typography>
 
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits
-              title="Current Visits"
-              chartData={[
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
-              ]}
-              chartColors={[
-                theme.palette.error.main,
-                theme.palette.chart.blue[0],
-                theme.palette.chart.violet[0],
-                theme.palette.chart.yellow[0],
-              ]}
-            />
-          </Grid>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppWidgetSummary title="Total Drivers" total={driver} icon={'ant-design:android-filled'} />
+              </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppConversionRates
-              title="Conversion Rates"
-              subheader="(+43%) than last year"
-              chartData={[
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ]}
-            />
-          </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppWidgetSummary title="Total Constructors" total={constructor} color="info" icon={'ant-design:apple-filled'} />
+              </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
-            <AppOrderTimeline
-              title="Order Timeline"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: [
-                  '1983, orders, $4220',
-                  '12 Invoices have been paid',
-                  'Order #37745 from September',
-                  'New order placed #XF-2356',
-                  'New order placed #XF-2346',
-                ][index],
-                type: `order${index + 1}`,
-                time: faker.date.past(),
-              }))}
-            />
-          </Grid>
-        </Grid>
-      </Container>
-    </Page>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppWidgetSummary title="Total Circuits" total={circuit} color="warning" icon={'ant-design:windows-filled'} />
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                <AppWidgetSummary title="Total Seasons" total={season} color="error" icon={'ant-design:bug-filled'} />
+              </Grid>
+
+              <Grid item xs={12} md={12} lg={12}>
+                  <Card >
+                      <CardHeader
+                          title='Latest Results'
+                          subheader='Latest results from the last race'
+                          style={{paddingBottom:'20px'}}
+                      />
+                          <Typography style={{paddingLeft:'5%', paddingBottom:'20px'}}>
+                              The last race was in {lastRace.Circuit.Location.locality},
+                              {lastRace.Circuit.Location.country}.
+                              It was the {lastRace.raceName}<br/><br/>
+
+                              The winner of the qualification who won the pole position was {lastQualy.Driver.familyName},
+                              with a lap time on the Q3 of {lastQualy.Q3}.<br/><br/>
+                              The winner of the {lastRace.Circuit.Location.locality} was
+                              {lastRace.Results[0].Driver.familyName},
+                              with a total time of {lastRace.Results[0].Time.time}
+                              winning a total points of {lastRace.Results[0].points}<br/><br/>
+                          </Typography>
+
+                  </Card>
+              </Grid>
+            </Grid>
+          </Container>
+        </Page>
   );
 }

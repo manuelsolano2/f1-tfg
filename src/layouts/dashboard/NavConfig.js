@@ -27,6 +27,11 @@ const navConfig = [
     icon: getIcon('bxs:medal'),
   },
   {
+    title: 'Constructors',
+    path: '/dashboard/constructors',
+    icon: getIcon('bxs:medal'),
+  },
+  {
     title: 'Not found',
     path: '/404',
     icon: getIcon('eva:alert-triangle-fill'),
