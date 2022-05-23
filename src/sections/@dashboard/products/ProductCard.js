@@ -49,7 +49,7 @@ export default function ShopProductCard({ row , index}) {
             {code}
           </Typography>
             <Typography variant="subtitle1">
-            {row.points}
+            {row.points} pts
           </Typography>
         </Stack>
       </Stack>

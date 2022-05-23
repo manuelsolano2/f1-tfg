@@ -51,7 +51,7 @@ export default function ProductConstructorCard({ row , index}) {
           </Typography>
 
             <Typography>
-                {points}pts
+                <b>{points} pts</b>
           </Typography>
         </Stack>
       </Stack>
