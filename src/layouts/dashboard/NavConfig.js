@@ -31,11 +31,6 @@ const navConfig = [
     path: '/dashboard/constructors',
     icon: getIcon('clarity:shield-solid'),
   },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon('eva:alert-triangle-fill'),
-  },
 ];
 
 export default navConfig;
