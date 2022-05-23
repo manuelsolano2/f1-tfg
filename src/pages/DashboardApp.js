@@ -30,9 +30,7 @@ export default function DashboardApp() {
             .catch((err) => {
                 console.log(err)
             });
-    }, []);
 
-    useEffect(()=>{
         fetch(`http://ergast.com/api/f1/constructors.json`, {
             method: 'GET',
         })
@@ -43,9 +41,7 @@ export default function DashboardApp() {
             .catch((err) => {
                 console.log(err)
             });
-    }, []);
 
-    useEffect(()=>{
         fetch(`http://ergast.com/api/f1/circuits.json`, {
             method: 'GET',
         })
@@ -56,9 +52,7 @@ export default function DashboardApp() {
             .catch((err) => {
                 console.log(err)
             });
-    }, []);
 
-    useEffect(()=>{
         fetch(`http://ergast.com/api/f1/seasons.json`, {
             method: 'GET',
         })
@@ -69,9 +63,7 @@ export default function DashboardApp() {
             .catch((err) => {
                 console.log(err)
             });
-    }, []);
 
-    useEffect(()=>{
         fetch(`http://ergast.com/api/f1/current/last/results.json`, {
             method: 'GET',
         })
@@ -82,9 +74,7 @@ export default function DashboardApp() {
             .catch((err) => {
                 console.log(err)
             });
-    }, []);
 
-    useEffect(()=>{
         fetch(`http://ergast.com/api/f1/current/last/qualifying.json`, {
             method: 'GET',
         })
@@ -96,9 +86,8 @@ export default function DashboardApp() {
                 console.log(err)
             });
     }, []);
-    // aqui es donde estoy teniendo el problema al final santi, con la llamada de locality y de country en el ultimo typography
-    // he intentado lo del doble ampersand abajo del return con el Page pero que va, sino lo miramos esta tarde
-    // he dejado en el console log las llamadas como son, aunque abajo están todas de todas formas
+
+
     if (lastRace && lastQualy) {
         return (
         <Page title="Dashboard">
