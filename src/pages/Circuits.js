@@ -70,7 +70,7 @@ export default function Circuits() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [table, setTable] = useState([]);
-  const [year, setYear] = useState(2022)
+  const [year, setYear] = useState((new Date().getFullYear()))
   const [selector, setSelector] = useState([]);
 
   const handleChangePage = (event, newPage) => {

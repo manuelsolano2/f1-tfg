@@ -12,7 +12,7 @@ import ShopProductCard from "../sections/@dashboard/products/ProductCard";
 // ----------------------------------------------------------------------
 
 export default function ConstructorStandings() {
-    const [year, setYear] = useState(2022)
+    const [year, setYear] = useState((new Date().getFullYear()))
     const [selector, setSelector] = useState([]);
 
     useEffect(()=>{
