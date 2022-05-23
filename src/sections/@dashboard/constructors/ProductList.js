@@ -9,7 +9,7 @@ export default function ProductConstructorList({ year }) {
   const [data1, setData] = useState(null);
 
   useEffect(()=>{
-    fetch(`http://ergast.com/api/f1/${year}/constructorStandings.json`, {
+    fetch(`https://ergast.com/api/f1/${year}/constructorStandings.json`, {
       method: 'GET',
     })
         .then(response => response.json())

@@ -93,7 +93,7 @@ export default function Circuits() {
   const isUserNotFound = filteredUsers.length === 0;
 
   useEffect(()=>{
-    fetch(`http://ergast.com/api/f1/seasons.json?limit=100`, {
+    fetch(`https://ergast.com/api/f1/seasons.json?limit=100`, {
       method: 'GET',
     })
         .then(response => response.json())
@@ -108,7 +108,7 @@ export default function Circuits() {
   }, []);
 
   useEffect(()=>{
-    fetch(`http://ergast.com/api/f1/${year}/circuits.json`, {
+    fetch(`https://ergast.com/api/f1/${year}/circuits.json`, {
       method: 'GET',
     }).then(response => response.json())
         .then(data => {

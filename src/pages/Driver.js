@@ -109,7 +109,7 @@ export default function Driver() {
   }, []);
 
   useEffect(()=>{
-    fetch(`http://ergast.com/api/f1/${year}/last/results.json`, {
+    fetch(`https://ergast.com/api/f1/${year}/last/results.json`, {
       method: 'GET',
     }).then(response => response.json())
         .then(data => {

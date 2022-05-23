@@ -20,7 +20,7 @@ export default function DashboardApp() {
     const [lastQualy, setLastQualy] = useState(null);
 
     useEffect(()=>{
-        fetch(`http://ergast.com/api/f1/drivers.json`, {
+        fetch(`https://ergast.com/api/f1/drivers.json`, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -31,7 +31,7 @@ export default function DashboardApp() {
                 console.log(err)
             });
 
-        fetch(`http://ergast.com/api/f1/constructors.json`, {
+        fetch(`https://ergast.com/api/f1/constructors.json`, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -42,7 +42,7 @@ export default function DashboardApp() {
                 console.log(err)
             });
 
-        fetch(`http://ergast.com/api/f1/circuits.json`, {
+        fetch(`https://ergast.com/api/f1/circuits.json`, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -53,7 +53,7 @@ export default function DashboardApp() {
                 console.log(err)
             });
 
-        fetch(`http://ergast.com/api/f1/seasons.json`, {
+        fetch(`https://ergast.com/api/f1/seasons.json`, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -64,7 +64,7 @@ export default function DashboardApp() {
                 console.log(err)
             });
 
-        fetch(`http://ergast.com/api/f1/current/last/results.json`, {
+        fetch(`https://ergast.com/api/f1/current/last/results.json`, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -75,7 +75,7 @@ export default function DashboardApp() {
                 console.log(err)
             });
 
-        fetch(`http://ergast.com/api/f1/current/last/qualifying.json`, {
+        fetch(`https://ergast.com/api/f1/current/last/qualifying.json`, {
             method: 'GET',
         })
             .then(response => response.json())

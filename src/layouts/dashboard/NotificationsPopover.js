@@ -29,7 +29,7 @@ const NOTIFICATIONS = [
     description: 'Check the API documentation website',
     avatar: null,
     type: 'api',
-    link: 'http://ergast.com/mrd/'
+    link: 'https://ergast.com/mrd/'
   },
   {
     id: faker.datatype.uuid(),

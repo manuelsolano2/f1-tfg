@@ -9,7 +9,7 @@ export default function Users() {
   const [table, setTable] = useState(null);
 
   useEffect(()=>{
-    fetch('http://ergast.com/api/f1/current/last/results.json', {
+    fetch('https://ergast.com/api/f1/current/last/results.json', {
       method: 'GET',
     })
         .then(response => response.json())
