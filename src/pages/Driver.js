@@ -101,7 +101,6 @@ export default function Driver() {
         .then(selector => {
           setSelector(selector.MRData.SeasonTable.Seasons);
 
-
         })
         .catch((err) => {
           console.log(err)
