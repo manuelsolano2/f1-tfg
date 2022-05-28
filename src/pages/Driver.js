@@ -21,8 +21,8 @@ import {UserListHead, UserListToolbar} from '../sections/@dashboard/user';
 // ----------------------------------------------------------------------
 
 const DRIVER_HEAD = [
-  { id: 'givenName', label: 'givenName', alignRight: false },
-  { id: 'familyName', label: 'familyName', alignRight: false },
+  { id: 'givenName', label: 'Name', alignRight: false },
+  { id: 'familyName', label: 'Surname', alignRight: false },
   { id: 'code', label: 'Code', alignRight: false },
   { id: 'nationality', label: 'Nationality', alignRight: false },
   { id: 'team', label: 'Team', alignRight: false },
