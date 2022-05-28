@@ -29,7 +29,7 @@ export default function ProductConstructorList({ year }) {
             <Grid key={row} item xs={12} sm={6} md={3}>
                 <ProductConstructorCard row={row} index={index}/>
             </Grid>
-        )};
+        )}
     </Grid>
   );
 };

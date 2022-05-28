@@ -18,13 +18,13 @@ const ProductImgStyle = styled('img')({
 
 // ----------------------------------------------------------------------
 
-ShopProductCard.propTypes = {
+ProductCard.propTypes = {
   row: PropTypes.object,
 };
 
 
 
-export default function ShopProductCard({ row , index}) {
+export default function ProductCard({ row , index}) {
 
     const {code, driverId, familyName} = row.Driver
 

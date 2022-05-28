@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 // components
 import Page from '../components/Page';
 import {ProductConstructorList} from '../sections/@dashboard/constructors/index';
-import ShopProductCard from "../sections/@dashboard/products/ProductCard";
+import ProductCard from "../sections/@dashboard/products/ProductCard";
 
 // mock
 

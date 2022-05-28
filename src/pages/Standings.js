@@ -61,5 +61,5 @@ export default function Standings() {
         <ProductList year={year} />
       </Container>
     </Page>
-  );
+  )
 }
