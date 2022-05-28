@@ -3,7 +3,6 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
-import Blog from './pages/Blog';
 import Driver from './pages/Driver';
 import NotFound from './pages/Page404';
 import Standings from './pages/Standings';
@@ -24,7 +23,6 @@ export default function Router() {
         { path: 'standings', element: <Standings /> },
         { path: 'constructors', element: <ConstructorStandings /> },
         { path: 'circuits', element: <Circuits /> },
-        { path: 'blog', element: <Blog /> },
       ],
     },
     {
